@@ -1,7 +1,10 @@
 export function EmailFolderList() {
     return (
         <section className='email-folder-list'>
-            emails list here
+            <ul>
+                <li>email</li>
+                <li>here</li>
+            </ul>
         </section>
     )
 }
