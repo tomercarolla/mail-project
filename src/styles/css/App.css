@@ -1,0 +1,14 @@
+body {
+    height: 100vh;
+}
+
+#root {
+    display: flex;
+    flex-direction: column;
+    
+    height: 100%;
+}
+
+main {
+    flex-grow: 1;
+}
