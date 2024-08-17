@@ -22,13 +22,16 @@ _createRobots()
 async function query(filterBy) {
     let emails = await storageService.query(STORAGE_KEY);
 
-    if (filterBy) {
-        let { minBatteryStatus = 0, model = '' } = filterBy
+    // const filterBy = {
+    //     status: 'inbox/sent/star/trash',
+    //     txt: 'puki', // no need to support complex text search
+    //     isRead: true/false/null, // (optional property, if missing: show all)
+    // }
 
-        emails = emails.filter(robot =>
-            robot.model.toLowerCase().includes(model.toLowerCase()) &&
-            robot.batteryStatus > minBatteryStatus
-        )
+    if (filterBy) {
+        let { status, txt, isRead } = filterBy
+
+        emails = emails.filter(email => email.subject.includes(txt) || email.body.includes(txt))
     }
     return emails;
 }
