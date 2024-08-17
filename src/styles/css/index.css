@@ -9,7 +9,10 @@
 /* Pages */
 @import "./pages/home.css";
 @import "./pages/about.css";
+@import "./pages/emailIndex.css";
 
 /* Components */
-@import "./components/AppHeader.css";
-@import "./components/AppFooter.css";
+@import "./components/appHeader.css";
+@import "./components/appFooter.css";
+@import "./components/filterBar.css";
+@import "./components/asideMenu.css";

@@ -1,0 +1,12 @@
+.filter-bar {
+    display: flex;
+    align-items: center;
+
+    input {
+        all: unset;
+        padding: 10px;
+        padding-inline-start: 15px;
+        border-radius: 8px;
+        background-color: lightblue;
+    }
+}
