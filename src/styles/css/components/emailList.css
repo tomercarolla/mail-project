@@ -1,0 +1,69 @@
+.email-list {
+    background-color: #FFF;
+
+    ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+
+        li {
+            display: grid;
+            grid-template-columns: 30px 1fr 1fr minmax(auto, 130px);
+            gap: 8px;
+            align-items: center;
+            transition: all .2s linear;
+            padding-block: 12px;
+            padding-inline: 12px;
+            background-color: rgba(0, 0, 0, 0.09);
+            cursor: pointer;
+
+            &:not(:last-child) {
+                border-bottom: 1px solid lightgrey;
+            }
+
+            &:hover {
+                background-color: aliceblue;
+                box-shadow: inset 1px 0 0 #dadce0, inset -1px 0 0 #dadce0, 0 1px 2px 0 rgba(60, 64, 67, .3), 0 1px 3px 1px rgba(60, 64, 67, .15);
+
+                .actions {
+                    display: block;
+                }
+            }
+
+            &.unread {
+                background-color: #FFF;
+
+                p {
+                    font-weight: 600;
+                }
+            }
+
+            .star {
+                all: unset;
+                visibility: hidden;
+                font-size: 20px;
+                height: 20px;
+                cursor: pointer;
+                color: #444746;
+
+                &:before {
+                    content: "\2606";
+                    position: absolute;
+                    visibility: visible;
+                }
+
+                &:checked {
+                    &:before {
+                        content: "\2605";
+                    }
+
+                    color: #F3B400;
+                }
+            }
+
+            .actions {
+                display: none;
+            }
+        }
+    }
+}

@@ -45,10 +45,10 @@ function remove(id) {
 }
 
 function save(emailToSave) {
+    console.log(emailToSave)
     if (emailToSave.id) {
         return storageService.put(STORAGE_KEY, emailToSave)
     } else {
-        emailToSave.isOn = false
         return storageService.post(STORAGE_KEY, emailToSave)
     }
 }

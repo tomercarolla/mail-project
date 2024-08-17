@@ -63,6 +63,12 @@
     text-align: left;
 }
 
+.text-ellipsis {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
 .center-block {
     display: block;
     margin: 0 auto;

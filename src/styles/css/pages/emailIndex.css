@@ -1,5 +1,5 @@
 .email-index {
-    /*background-color: aliceblue;*/
+    background-color: aliceblue;
     display: grid;
     grid-template-columns: auto 1fr;
     grid-template-rows: 60px 1fr;
