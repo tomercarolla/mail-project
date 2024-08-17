@@ -8,6 +8,7 @@
 
 /* Pages */
 @import "./pages/home.css";
+@import "./pages/about.css";
 
 /* Components */
 @import "./components/AppHeader.css";
