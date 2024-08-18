@@ -50,7 +50,6 @@ export function EmailIndex() {
         setFilter(filter)
     }
 
-
     if (!emails) return <div>Loading...</div>
 
     return (
