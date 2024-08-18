@@ -7,13 +7,16 @@ import {EmailList} from "../components/EmailList.jsx";
 export function EmailIndex() {
     const [emails, setEmails] = useState(null);
 
+    const defaultFilter = emailService.getDefaultFilter();
+    const [filter, setFilter] = useState(defaultFilter);
+
     useEffect(() => {
         loadEmails();
-    }, [])
+    }, [filter])
 
     async function loadEmails() {
         try {
-            const emails = await emailService.query();
+            const emails = await emailService.query(filter);
             setEmails(emails);
         } catch (err) {
             console.log(err);
@@ -43,13 +46,18 @@ export function EmailIndex() {
         // emailService.save(selectedEmail);
     }
 
+    function filterBy(filter) {
+        setFilter(filter)
+    }
+
+
     if (!emails) return <div>Loading...</div>
 
     return (
         <section className='email-index'>
             <AsideMenu />
 
-            <FilterBar />
+            <FilterBar filter={filter} filterBy={filterBy} />
 
             <EmailList emails={emails} toggleStar={toggleStar} toggleRead={toggleRead} />
             {/*<EmailFolderList />*/}

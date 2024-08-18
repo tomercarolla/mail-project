@@ -31,7 +31,7 @@ async function query(filterBy) {
     if (filterBy) {
         let { status, txt, isRead } = filterBy
 
-        emails = emails.filter(email => email.subject.includes(txt) || email.body.includes(txt))
+        emails = emails.filter(email => email.from.includes(txt) || email.subject.includes(txt) || email.body.includes(txt))
     }
     return emails;
 }
@@ -62,11 +62,16 @@ function createRobot(model = '', type = '', batteryStatus = 100) {
 }
 
 function getDefaultFilter() {
+    // const filterBy = {
+    //     status: 'inbox/sent/star/trash',
+    //     txt: 'puki', // no need to support complex text search
+    //     isRead: true/false/null, // (optional property, if missing: show all)
+    // }
+
     return {
-        type: '',
-        minBatteryStatus: 0,
-        maxBattery: '',
-        model: ''
+        status: 'inbox',
+        txt: '',
+        isRead: null,
     }
 }
 
