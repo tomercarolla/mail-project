@@ -54,7 +54,7 @@ export function EmailIndex() {
 
     return (
         <section className='email-index'>
-            <AsideMenu />
+            <AsideMenu emailsCount={emails.length} />
 
             <FilterBar filter={filter} filterBy={filterBy} />
 

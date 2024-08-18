@@ -16,5 +16,18 @@
     nav {
         display: flex;
         flex-direction: column;
+
+        a {
+            padding: 8px 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-radius: 50px;
+
+            &:hover {
+                text-decoration: none;
+                background-color: cornflowerblue;
+            }
+        }
     }
 }
