@@ -3,20 +3,23 @@ import {FilterBar} from "../components/FilterBar.jsx";
 import {useEffect, useState} from "react";
 import {emailService} from "../services/email.service.js";
 import {EmailList} from "../components/EmailList.jsx";
+import {Outlet, useParams} from "react-router-dom";
 
 export function EmailIndex() {
     const [emails, setEmails] = useState(null);
 
     const defaultFilter = emailService.getDefaultFilter();
-    const [filter, setFilter] = useState(defaultFilter);
+    const [filterBy, setFilterBy] = useState(defaultFilter);
+
+    const {id} = useParams();
 
     useEffect(() => {
         loadEmails();
-    }, [filter])
+    }, [filterBy, id])
 
     async function loadEmails() {
         try {
-            const emails = await emailService.query(filter);
+            const emails = await emailService.query(filterBy);
             setEmails(emails);
         } catch (err) {
             console.log(err);
@@ -46,8 +49,8 @@ export function EmailIndex() {
         // emailService.save(selectedEmail);
     }
 
-    function filterBy(filter) {
-        setFilter(filter)
+    function onSetFilterBy(filter) {
+        setFilterBy(filter)
     }
 
     if (!emails) return <div>Loading...</div>
@@ -56,10 +59,11 @@ export function EmailIndex() {
         <section className='email-index'>
             <AsideMenu emailsCount={emails.length} />
 
-            <FilterBar filter={filter} filterBy={filterBy} />
+            <FilterBar filterBy={filterBy} onSetFilterBy={onSetFilterBy} />
 
-            <EmailList emails={emails} toggleStar={toggleStar} toggleRead={toggleRead} />
-            {/*<EmailFolderList />*/}
+            {!id ? <EmailList emails={emails} toggleStar={toggleStar} toggleRead={toggleRead} /> : null}
+
+            <Outlet />
         </section>
     )
 }

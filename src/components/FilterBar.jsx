@@ -1,10 +1,10 @@
 import {useEffect, useState} from "react";
 
-export function FilterBar({filter, filterBy}) {
+export function FilterBar({filterBy, onSetFilterBy}) {
     const [ filterByToEdit, setFilterByToEdit ] = useState(filterBy);
 
     useEffect(() => {
-        filterBy(filterByToEdit)
+        onSetFilterBy(filterByToEdit)
     }, [filterByToEdit]);
 
     function handleChange({ target }) {
