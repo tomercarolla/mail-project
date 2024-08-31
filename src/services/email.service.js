@@ -6,8 +6,8 @@ export const emailService = {
     save,
     remove,
     getById,
-    createRobot,
     getDefaultFilter,
+    getFilterFromSearchParams,
 }
 
 const STORAGE_KEY = 'emails'
@@ -23,16 +23,24 @@ async function query(filterBy) {
     let emails = await storageService.query(STORAGE_KEY);
 
     // const filterBy = {
-    //     status: 'inbox/sent/star/trash',
+    //     folder: 'inbox/sent/star/trash',
     //     txt: 'puki', // no need to support complex text search
     //     isRead: true/false/null, // (optional property, if missing: show all)
     // }
 
     if (filterBy) {
-        let { status, txt, isRead } = filterBy
+        // console.log(filterBy)
+        let { folder, txt, isRead } = filterBy;
 
-        emails = emails.filter(email => email.from.includes(txt) || email.subject.includes(txt) || email.body.includes(txt))
+        const isReadBool = isRead === 'true';
+
+        emails = emails.filter(email =>
+            (email.from.includes(txt) || email.subject.includes(txt) || email.body.includes(txt)) &&
+            (isRead === '' || email.isRead === isReadBool) &&
+            folder === '' || email.folder === folder
+        );
     }
+
     return emails;
 }
 
@@ -53,14 +61,6 @@ function save(emailToSave) {
     }
 }
 
-function createRobot(model = '', type = '', batteryStatus = 100) {
-    return {
-        model,
-        batteryStatus,
-        type
-    }
-}
-
 function getDefaultFilter() {
     // const filterBy = {
     //     status: 'inbox/sent/star/trash',
@@ -69,10 +69,21 @@ function getDefaultFilter() {
     // }
 
     return {
-        status: 'inbox',
+        folder: '',
         txt: '',
-        isRead: null,
+        isRead: '',
     }
+}
+
+function getFilterFromSearchParams(searchParams) {
+    const defaultFilter = getDefaultFilter();
+    const filterBy = {};
+
+    for (const key in defaultFilter) {
+        filterBy[key] = searchParams.get(key) || '';
+    }
+
+    return filterBy;
 }
 
 function _createRobots() {
@@ -83,6 +94,7 @@ function _createRobots() {
     emails = [
         {
             id: 'e101',
+            folder: 'inbox',
             subject: 'Miss you!',
             body: 'Would love to catch up sometime.',
             isRead: false,
@@ -94,6 +106,7 @@ function _createRobots() {
         },
         {
             id: 'e102',
+            folder: 'draft',
             subject: 'Meeting Reminder',
             body: 'Don\'t forget our meeting tomorrow at 10am.',
             isRead: true,
@@ -105,6 +118,7 @@ function _createRobots() {
         },
         {
             id: 'e103',
+            folder: 'sent',
             subject: 'Weekend Plans',
             body: 'Are we still on for the hiking trip this weekend?',
             isRead: false,
@@ -116,6 +130,7 @@ function _createRobots() {
         },
         {
             id: 'e104',
+            folder: 'sent',
             subject: 'Invoice #12345',
             body: 'Please find the attached invoice for last month\'s services.',
             isRead: true,
@@ -127,6 +142,7 @@ function _createRobots() {
         },
         {
             id: 'e105',
+            folder: 'trash',
             subject: 'Job Application Update',
             body: 'Thank you for applying. We are reviewing your application.',
             isRead: false,

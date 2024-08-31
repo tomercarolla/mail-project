@@ -14,6 +14,6 @@
 /* Components */
 @import "./components/appHeader.css";
 @import "./components/appFooter.css";
-@import "./components/filterBar.css";
-@import "./components/asideMenu.css";
+@import "./components/emailFilter.css";
+@import "./components/emailFolderList.css";
 @import "./components/emailList.css";

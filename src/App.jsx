@@ -6,6 +6,8 @@ import {About} from "./pages/About.jsx";
 import {EmailIndex} from "./pages/EmailIndex.jsx";
 import {EmailDetails} from "./pages/EmailDetails.jsx";
 
+//todo fix router folders #inbox... - 1
+
 export function App() {
     return (
         <Router>
@@ -15,8 +17,8 @@ export function App() {
                 <Routes>
                     <Route path="/" element={<Home/>}/>
                     <Route path="/about" element={<About/>}/>
-                    <Route path="/email" element={<EmailIndex/>}>
-                        <Route path="/email/:id" element={<EmailDetails/>}/>
+                    <Route path="/email/:folder" element={<EmailIndex/>}>
+                        <Route path=":folder/:id" element={<EmailDetails/>}/>
                     </Route>
                 </Routes>
             </main>

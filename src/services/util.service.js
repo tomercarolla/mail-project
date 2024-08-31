@@ -1,3 +1,5 @@
+import {useMemo} from "react";
+
 export function makeId(length = 5) {
     let text = "";
 
@@ -19,3 +21,40 @@ export function loadFromStorage(key, defaultValue = null) {
 
     return JSON.parse(value);
 }
+
+export function debounce(func, time) {
+    let timeoutId;
+
+    return (...args) => {
+        clearTimeout(timeoutId)
+        timeoutId = setTimeout(() => {
+            func(...args)
+        }, time)
+    }
+}
+
+
+export function getExistingProperties(obj) {
+    const truthyObj = {};
+
+    for (const key in obj) {
+        const val = obj[key];
+
+        if (val || typeof val === 'boolean') {
+            truthyObj[key] = val;
+        }
+    }
+
+    return truthyObj;
+}
+
+export const useDateFormatter = () => {
+    return useMemo(() => {
+        return (timestamp) => {
+            const date = new Date(timestamp);
+            const options = { year: 'numeric', month: 'long', day: 'numeric' };
+
+            return date.toLocaleDateString(undefined, options);
+        };
+    }, []);
+};

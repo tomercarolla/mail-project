@@ -6,18 +6,24 @@ export function EmailList({emails, toggleStar, toggleRead}) {
         <section className='email-list'>
             <ul>
                 {emails.map(email => (
-                    <li key={email.id} className={!email.isRead ? 'unread' : ''}>
-                        <Link to={`/email/${email.id}`}>
+                    <li key={email.id}>
+                        <Link to={`/email/${email.id}`} className={!email.isRead ? 'unread' : ''}>
+                            <div>
                             <input
                                 type="checkbox"
                                 className='star'
                                 checked={email.isStarred}
+                                onClick={(e) => e.stopPropagation()}
                                 onChange={(e) => toggleStar(e, email)}/>
+                            </div>
 
                             <EmailPreview email={email}/>
 
                             <div className="actions">
-                                <button className='read' onClick={(e) => toggleRead(e, email)}>Read</button>
+                                <button className='read' onClick={(e) => {
+                                    e.preventDefault();
+                                    toggleRead(e, email)
+                                }}>Read</button>
                             </div>
                         </Link>
                     </li>

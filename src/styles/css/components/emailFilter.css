@@ -1,0 +1,22 @@
+.email-filter {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+
+    input {
+        all: unset;
+        padding: 10px;
+        padding-inline-start: 15px;
+        border-radius: 8px;
+        background-color: lightblue;
+    }
+
+    select {
+        padding: 10px;
+        padding-inline-start: 15px;
+        border-radius: 8px;
+        background-color: lightblue;
+        border: none;
+        min-width: 100px;
+    }
+}

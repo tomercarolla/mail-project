@@ -1,5 +1,6 @@
 body {
     height: 100vh;
+    overflow: hidden;
 }
 
 #root {
@@ -11,4 +12,5 @@ body {
 
 main {
     flex-grow: 1;
+    overflow: hidden;
 }
