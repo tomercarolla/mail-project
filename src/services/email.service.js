@@ -22,14 +22,7 @@ _createRobots()
 async function query(filterBy) {
     let emails = await storageService.query(STORAGE_KEY);
 
-    // const filterBy = {
-    //     folder: 'inbox/sent/star/trash',
-    //     txt: 'puki', // no need to support complex text search
-    //     isRead: true/false/null, // (optional property, if missing: show all)
-    // }
-
     if (filterBy) {
-        // console.log(filterBy)
         let { folder, txt, isRead } = filterBy;
 
         const isReadBool = isRead === 'true';
@@ -37,7 +30,7 @@ async function query(filterBy) {
         emails = emails.filter(email =>
             (email.from.includes(txt) || email.subject.includes(txt) || email.body.includes(txt)) &&
             (isRead === '' || email.isRead === isReadBool) &&
-            folder === '' || email.folder === folder
+            (folder === 'inbox' || email.folder === folder)
         );
     }
 
@@ -53,7 +46,6 @@ function remove(id) {
 }
 
 function save(emailToSave) {
-    console.log(emailToSave)
     if (emailToSave.id) {
         return storageService.put(STORAGE_KEY, emailToSave)
     } else {
@@ -62,14 +54,8 @@ function save(emailToSave) {
 }
 
 function getDefaultFilter() {
-    // const filterBy = {
-    //     status: 'inbox/sent/star/trash',
-    //     txt: 'puki', // no need to support complex text search
-    //     isRead: true/false/null, // (optional property, if missing: show all)
-    // }
-
     return {
-        folder: '',
+        folder: 'inbox',
         txt: '',
         isRead: '',
     }

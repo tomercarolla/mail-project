@@ -1,4 +1,4 @@
-import {useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import {useEffect, useState} from "react";
 import {emailService} from "../services/email.service.js";
 import styled from "styled-components";
@@ -6,6 +6,7 @@ import {useDateFormatter} from "../services/util.service.js";
 
 export function EmailDetails() {
     const {id} = useParams();
+    const navigate = useNavigate();
     const [email, setEmail] = useState(null);
     const formattedDate = useDateFormatter();
 
@@ -25,10 +26,9 @@ export function EmailDetails() {
 
     if (!email) return <div>Loading...</div>
 
-    //todo - fix back to folder - 2
     return (
         <Detail>
-            <button>Back</button>
+            <button onClick={() => navigate(-1)}>Back</button>
 
             <div className="divider"></div>
 

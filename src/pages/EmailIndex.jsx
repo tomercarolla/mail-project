@@ -10,25 +10,25 @@ import {EmailCompose} from "../components/EmailCompose.jsx";
 export function EmailIndex() {
     const [emails, setEmails] = useState(null);
     const [searchParams, setSearchParams] = useSearchParams();
-    const {pathname} = useLocation();
-    const folder = pathname.split('/').pop();
     const defaultFilter = emailService.getFilterFromSearchParams(searchParams);
     const [filterBy, setFilterBy] = useState(defaultFilter);
-    const {id} = useParams();
-    ///todo - fix debounce - 3
-    // const onSetFilterByDebounce = useRef(debounce(onSetFilterBy, 400)).current;
+    const {folder, id} = useParams();
 
-    // console.log(folder)
-    // console.log(filterBy)
+    ///todo - fix debounce - 3
+    // const onSetFilterByDebounce = useRef(debounce(onSetFilterBy, 4000)).current;
 
     useEffect(() => {
         loadEmails();
         setSearchParams(getExistingProperties(filterBy));
-    }, [filterBy, id, pathname])
+    }, [filterBy, folder]);
 
     async function loadEmails() {
         try {
-            const emails = await emailService.query(filterBy);
+            const filter = {
+                ...filterBy,
+                folder: folder,
+            }
+            const emails = await emailService.query(filter);
 
             setEmails(emails);
         } catch (err) {
@@ -37,24 +37,32 @@ export function EmailIndex() {
         }
     }
 
-    function toggleStar(e, selectedEmail) {
-        const updateEmail = emails.map(email =>
-            email.id === selectedEmail.id ? {...email, isStarred: !email.isStarred} : email
-        );
+    async function toggleStar(e, selectedEmail) {
+        try {
+            const updatedEmail = {
+                ...selectedEmail,
+                isStarred: !selectedEmail.isStarred
+            };
 
-        setEmails(updateEmail);
-        ///todo - fix save - 2
-        // emailService.save(selectedEmail);
+            await emailService.save(updatedEmail);
+            setEmails(emails.map(email =>
+                email.id === updatedEmail.id ? updatedEmail : email
+            ));
+        } catch (err) {
+            console.log(err)
+        }
     }
 
-    function toggleRead(e, selectedEmail) {
-        const updateEmail = emails.map(email =>
-            email.id === selectedEmail.id ? {...email, isRead: !email.isRead} : email
-        );
+    async function toggleRead(e, selectedEmail) {
+        const updatedEmail = {
+            ...selectedEmail,
+            isRead: !selectedEmail.isRead
+        };
 
-        setEmails(updateEmail);
-        ///todo - fix save - 2
-        // emailService.save(selectedEmail);
+        await emailService.save(updatedEmail);
+        setEmails(emails.map(email =>
+            email.id === updatedEmail.id ? updatedEmail : email
+        ));
     }
 
     function onSetFilterBy(filter) {
@@ -63,17 +71,19 @@ export function EmailIndex() {
 
     if (!emails) return <div>Loading...</div>
 
+    //todo - fix counter delay - 1
+    const counter = emails.filter(email => !email.isRead && (folder === 'inbox' || email.folder !== 'trash')).length;
+
     return (
         <section className='email-index'>
-            <EmailFolderList filterBy={filterBy} onSetFilterBy={onSetFilterBy} emailsCount={emails.length} />
+            <EmailFolderList emailsCount={counter}/>
 
-            <EmailFilter filterBy={filterBy} onSetFilterBy={onSetFilterBy} />
+            <EmailFilter filterBy={filterBy} onSetFilterBy={onSetFilterBy}/>
 
-            {!id ? <EmailList emails={emails} toggleStar={toggleStar} toggleRead={toggleRead} /> : null}
+            {!id ? <EmailList folder={folder} emails={emails} toggleStar={toggleStar} toggleRead={toggleRead}/> : (
+                <Outlet/>)}
 
-            {searchParams.has('compose') ? <EmailCompose /> : null}
-
-            <Outlet />
+            {searchParams.has('compose') ? <EmailCompose/> : null}
         </section>
     )
 }

@@ -1,22 +1,17 @@
 import {NavLink, useLocation, useNavigate} from "react-router-dom";
 import {useEffect, useState} from "react";
 
-export function EmailFolderList({emailsCount, filterBy, onSetFilterBy}) {
+export function EmailFolderList({emailsCount}) {
     const navigate = useNavigate();
     const location = useLocation();
-    const [filterByToEdit, setFilterByToEdit] = useState(filterBy);
     const folder = location.pathname.split('/').pop();
     const links = [
-        {to: '/email/inbox', text: 'Inbox', folder: ''},
-        {to: '/email/starred', text: 'Starred', folder: 'starred'},
-        {to: '/email/sent', text: 'Sent', folder: 'sent'},
-        {to: '/email/draft', text: 'Draft', folder: 'draft'},
-        {to: '/email/trash', text: 'Trash', folder: 'trash'},
-    ]
-
-    useEffect(() => {
-        onSetFilterBy(filterByToEdit);
-    }, [filterByToEdit]);
+        {to: '/email/inbox', text: 'Inbox'},
+        {to: '/email/starred', text: 'Starred'},
+        {to: '/email/sent', text: 'Sent'},
+        {to: '/email/draft', text: 'Draft'},
+        {to: '/email/trash', text: 'Trash'},
+    ];
 
     const handleClick = () => {
         const params = new URLSearchParams(location.search);
@@ -24,11 +19,6 @@ export function EmailFolderList({emailsCount, filterBy, onSetFilterBy}) {
 
         navigate(`${location.pathname}?${params.toString()}`);
     };
-
-    function handleChange(folder) {
-        setFilterByToEdit(prev => ({...prev, folder}));
-    }
-    //todo - fix email count delay - 2
 
     return (
         <aside className='aside-menu'>
@@ -38,9 +28,9 @@ export function EmailFolderList({emailsCount, filterBy, onSetFilterBy}) {
 
             <nav>
                 {links.map(link => (
-                    <NavLink key={link.to} onClick={() => handleChange(link.folder)} to={link.to}>
+                    <NavLink key={link.to} to={link.to}>
                         {link.text}
-                        {folder === link.text.toLowerCase() ? (<span>{emailsCount}</span>) : null}
+                        {emailsCount > 0 && folder === link.text.toLowerCase() ? (<span>{emailsCount}</span>) : null}
                     </NavLink>
                 ))}
             </nav>
