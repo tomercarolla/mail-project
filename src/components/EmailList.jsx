@@ -1,5 +1,8 @@
 import {EmailPreview} from "./EmailPreview.jsx";
 import {Link, Outlet, useParams} from "react-router-dom";
+import {Icon} from "@mui/material";
+import DraftsOutlinedIcon from '@mui/icons-material/DraftsOutlined';
+import MarkEmailUnreadOutlinedIcon from '@mui/icons-material/MarkEmailUnreadOutlined';
 
 export function EmailList({folder, emails, toggleStar, toggleRead}) {
     return (
@@ -20,10 +23,12 @@ export function EmailList({folder, emails, toggleStar, toggleRead}) {
                             <EmailPreview email={email}/>
 
                             <div className="actions">
-                                <button className='read' onClick={(e) => {
+                                <button className='read-btn' onClick={(e) => {
                                     e.preventDefault();
                                     toggleRead(e, email)
-                                }}>{email.isRead ? 'Unread' : 'Read'}</button>
+                                }}>
+                                    {email.isRead ? (<DraftsOutlinedIcon />) : (<MarkEmailUnreadOutlinedIcon />)}
+                                </button>
                             </div>
                         </Link>
                     </li>

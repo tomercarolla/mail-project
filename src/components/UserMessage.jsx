@@ -36,9 +36,7 @@ export function UserMsg() {
     return (
         <ToastMessage className={`${msg.type}`}>
             {msg.txt}
-            <span onClick={closeMsg} className="material-symbols-outlined">
-                <Icon color="primary">close</Icon>
-            </span>
+            <Icon>close</Icon>
         </ToastMessage>
     )
 }

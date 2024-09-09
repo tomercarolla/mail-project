@@ -17,7 +17,7 @@
                 padding-block: 12px;
                 padding-inline: 12px;
                 background-color: rgba(0, 0, 0, 0.09);
-                height: 47px;
+                height: 62px;
 
                 &:hover {
                     text-decoration: none;
@@ -64,6 +64,18 @@
 
                 .actions {
                     display: none;
+
+                    .read-btn {
+                        background: none;
+                        border: none;
+                        border-radius: 50px;
+                        padding: 5px;
+                        width: 37px;
+
+                        &:hover {
+                            background-color: rgba(0, 0, 0, 0.09);
+                        }
+                    }
                 }
             }
 

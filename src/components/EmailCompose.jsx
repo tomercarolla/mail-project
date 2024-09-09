@@ -28,9 +28,11 @@ export function EmailCompose() {
                 <input type='text' className="to" placeholder='To' />
                 <input type='text' className="subject" placeholder='Subject' />
             </div>
-            <div className="content"></div>
+            <div className="content">
+                <textarea />
+            </div>
             <div className="footer">
-                send
+                <button>Send</button>
             </div>
         </Compose>
     )
@@ -82,5 +84,15 @@ const Compose = styled.div`
     
     .content {
         flex: 1;
+    }
+
+    textarea {
+        width: 100%;
+        height: 100%;
+        resize: none;
+        background-color: #f7f7f7;
+        border: none;
+        border-radius: 5px;
+        padding: 10px;
     }
 `;
