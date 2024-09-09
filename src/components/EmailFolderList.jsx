@@ -30,7 +30,7 @@ export function EmailFolderList({emailsCount}) {
                 {links.map(link => (
                     <NavLink key={link.to} to={link.to}>
                         {link.text}
-                        {emailsCount > 0 && folder === link.text.toLowerCase() ? (<span>{emailsCount}</span>) : null}
+                        {emailsCount > 0 && link.text.toLowerCase() === 'inbox' ? (<span>{emailsCount}</span>) : null}
                     </NavLink>
                 ))}
             </nav>

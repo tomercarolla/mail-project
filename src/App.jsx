@@ -5,6 +5,7 @@ import {Home} from "./pages/Home.jsx";
 import {About} from "./pages/About.jsx";
 import {EmailIndex} from "./pages/EmailIndex.jsx";
 import {EmailDetails} from "./pages/EmailDetails.jsx";
+import {UserMsg} from "./components/UserMessage.jsx";
 
 export function App() {
     return (
@@ -21,6 +22,7 @@ export function App() {
                 </Routes>
             </main>
 
+            <UserMsg />
             <AppFooter/>
         </Router>
     )
